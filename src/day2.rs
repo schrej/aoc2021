@@ -25,16 +25,14 @@ fn parse_input_day2(input: &str) -> Result<Vec<(Instruction, i32)>, ParseIntErro
 
 #[aoc(day2, part1)]
 fn solve_part1(instructions: &[(Instruction, i32)]) -> i32 {
-    let final_pos = instructions.iter().fold((0, 0), |mut acc, instr| {
-        match &instr.0 {
-            Instruction::Up => { acc.1 -= instr.1 },
-            Instruction::Down => { acc.1 += instr.1},
-            Instruction::Forward => { acc.0 += instr.1 },
-            &Instruction::Unknown => {}
-        }
-        acc
-    });
-    final_pos.0 * final_pos.1
+    let (horizontal, depth) = instructions.iter()
+        .fold((0, 0), | (horizontal, depth), (instr, value)| match &instr {
+            Instruction::Up => (horizontal, depth - value ),
+            Instruction::Down => (horizontal, depth + value),
+            Instruction::Forward => (horizontal + value, depth),
+            &Instruction::Unknown => (horizontal, depth)
+        });
+    horizontal * depth
 }
 
 struct Position {
