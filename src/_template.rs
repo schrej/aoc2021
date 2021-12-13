@@ -15,5 +15,5 @@ fn solve_part2(depths: INPUT) -> () {
 
 #[cfg(test)]
 mod tests {
-    use template;
+    use super;
 }
